@@ -1,0 +1,705 @@
+@import "tailwindcss";
+
+/* 1. Variables & Base Setup */
+:root {
+    --primary: #00ffcc; /* Cyan จากโค้ด Bot ของคุณ */
+    --bg-dark: #0a0b10;
+    --card-bg: #161b22;
+    --text-main: #e6edf3;
+    --text-dim: #8b949e;
+    --nav-bg: rgba(10, 11, 16, 0.7);
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@theme {
+    --color-primary: var(--primary);
+    --color-white-50: #d9ecff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+/* 2. Navigation with Morph Animation */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 32px 8%;
+    z-index: 1000;
+    transition: var(--transition);
+
+    /* Scroll Animation Magic */
+    animation: nav-morph linear forwards;
+    animation-timeline: scroll();
+    animation-range: 0px 150px;
+}
+
+@keyframes nav-morph {
+    to {
+        padding: 16px 10%;
+        background: var(--nav-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(0, 255, 204, 0.2);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--text-main);
+    cursor: pointer;
+}
+
+.nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-main);
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.nav-links a:hover {
+    color: var(--primary);
+}
+
+/* 3. Hero Section */
+.hero {
+    min-height: 100vh; /* ใช้ min-height แทน height เพื่อรองรับเนื้อหาที่อาจงอกเพิ่ม */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 100px; /* เพิ่มพื้นที่ว่างด้านล่างของ Hero */
+}
+.about-section {
+    padding: 120px 0; /* เพิ่มระยะห่าง บน-ล่าง ให้กว้างขึ้น (จากเดิมที่อาจจะเป็น 60px หรือ 80px) */
+    width: 100%;
+}
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, #fff, var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* 4. 3D Project Cards (ผสมผสานโค้ดเดิมของคุณ) */
+/* --- Project Grid Setup --- */
+.projects-section {
+  padding: 80px 0;
+  background-color: var(--bg-dark);
+}
+
+.project-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  justify-content: center;
+  perspective: 1000px; /* เพิ่มมิติ 3D ให้กับ Grid */
+}
+
+/* --- Card Base --- */
+.card {
+  width: 300px;
+  height: 455px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 30px;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: #161b22;
+  border-radius: 30px;
+  overflow: hidden; /* ตัวนี้จะทำหน้าที่ตัดขอบรูปที่เกินออกมาให้มนตาม Card */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.5s ease;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 10px 30px;
+  /* เอา object-fit และ object-position ออกจากตรงนี้ */
+}
+
+.cover-image {
+  width: 100%;
+  height: 100%;       /* เพิ่มบรรทัดนี้เพื่อให้รูปสูงเต็ม Card */
+  object-fit: cover;  /* ตัวนี้สำคัญมาก: จะทำให้รูปขยายเต็มโดยไม่เสียสัดส่วน */
+  transition: all 0.5s ease;
+  opacity: 0.7; 
+  display: block;     /* เพิ่มเพื่อให้แน่ใจว่าไม่มีช่องว่างด้านล่างรูป */
+}
+
+/* --- Content & Pop-up Effect --- */
+.card-content h3 {
+  color: #fff;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  transition: all 0.5s ease;
+}
+
+.card-overlay {
+  max-height: 0; /* ซ่อนเนื้อหาไว้ตอนแรก */
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  overflow: hidden;
+}
+
+.card-overlay p {
+  color: #8b949e;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+.tech-tag {
+  display: inline-block;
+  background: rgba(0, 255, 204, 0.1);
+  color: #00ffcc;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  margin-right: 5px;
+  border: 1px solid rgba(0, 255, 204, 0.3);
+}
+
+.view-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  background: #00ffcc;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* --- HOVER STATE --- */
+.card:hover {
+  transform: translateY(-10px);
+}
+
+.card:hover .wrapper {
+  transform: rotateX(10deg); /* เอียงการ์ดแบบ 3D Perspective */
+  border-color: #00ffcc;
+  box-shadow: 0 0 30px rgba(0, 255, 204, 0.2);
+}
+
+.card:hover .cover-image {
+  opacity: 0.3; /* เมื่อชี้ให้ภาพมืดลงเพื่อให้อ่านข้อความง่าย */
+  transform: scale(1.1);
+}
+
+.card:hover .card-overlay {
+  max-height: 250px; /* ขยายความสูงออกมา */
+  opacity: 1;
+  transform: translateY(0);
+  margin-top: 10px;
+}
+
+.card:hover h3 {
+  color: #00ffcc;
+  transform: translateY(-5px);
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85); /* พื้นหลังดำจางๆ */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(8px);
+}
+
+.modal-content {
+  background: var(--card-bg);
+  width: 90%;
+  max-width: 800px;
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 204, 0.3);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* แบ่งครึ่งรูปกับข้อความ */
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .modal-body { grid-template-columns: 1fr; } /* มือถือให้ซ้อนกัน */
+}
+
+.modal-body img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-text {
+  padding: 40px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 10;
+}
+.cta-btn {
+  padding: 10px 24px;
+  background: transparent;
+  color: var(--primary);
+  border: 1.5px solid var(--primary);
+  border-radius: 8px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.cta-btn:hover {
+  background: var(--primary);
+  color: #000;
+  box-shadow: 0 8px 20px -8px var(--primary);
+}
+/* --- Navigation Links --- */
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-main);
+    font-weight: 500;
+    position: relative; /* สำคัญ: เพื่อให้ขีดอ้างอิงตำแหน่งกับตัวอักษร */
+    transition: var(--transition);
+}
+
+/* สร้างขีดเตรียมไว้ (แต่ยังไม่มีความกว้าง) */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0; /* เริ่มต้นจาก 0 */
+    height: 2px;
+    background-color: #fff; /* ขีดสีขาวตามที่ต้องการ */
+    transition: width 0.3s ease; /* ตั้งค่าให้มันค่อยๆ ยืดออก */
+}
+
+/* เมื่อ Hover ให้ขีดยืดเต็ม 100% */
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* เปลี่ยนสีตัวอักษรตอน Hover (ถ้าต้องการ) */
+.nav-links a:hover {
+    color: #fff;
+}
+.projects-section {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* จัดระเบียบให้ container อยู่กลาง */
+    padding: 80px 0;
+}
+
+.projects-section .container {
+    width: 100%;
+    max-width: 1200px; /* กำหนดความกว้างสูงสุดที่เหมาะสม */
+    margin: 0 auto;    /* บังคับให้อยู่กึ่งกลางหน้าจอ */
+}
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* บังคับให้ลูกทุกตัว (h2, p, grid) อยู่ตรงกลาง */
+}
+/* จัดการหัวข้อทุกอันในหน้าเว็บ */
+.about-section h2, 
+.section-title {
+    font-size: 2.5rem;          /* ขยายขนาดให้ใหญ่ขึ้น */
+    font-weight: 800;           /* เน้นความหนา */
+    text-align: center;         /* จัดให้อยู่กึ่งกลางเป๊ะ */
+    margin-bottom: 50px;        /* เพิ่มระยะห่างจากเนื้อหาด้านล่าง */
+    width: 100%;                /* บังคับให้จองพื้นที่เต็มความกว้างเพื่อให้อยู่กลางจริง */
+    
+    /* เพิ่มลูกเล่น Gradient ให้เหมือนหัวข้อ Hero */
+    background: linear-gradient(90deg, #fff, var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    letter-spacing: 1px;        /* เพิ่มระยะห่างตัวอักษรให้ดูหรูขึ้น */
+    text-transform: uppercase;   /* ปรับเป็นตัวพิมพ์ใหญ่ (ถ้าชอบสไตล์เท่ๆ) */
+}
+
+/* เพิ่มเส้นขีดใต้หัวข้อแบบ Minimal */
+.section-title::after,
+.about-section h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--primary);
+    margin: 15px auto 0;        /* จัดเส้นให้อยู่กึ่งกลางใต้ตัวหนังสือ */
+    border-radius: 2px;
+}
+.about-info p {
+    max-width: 800px;    /* ไม่ให้ตัวหนังสือแผ่กว้างเกินไปจนอ่านยาก */
+    margin: 0 auto;      /* จัดย่อหน้าให้อยู่กึ่งกลาง */
+    text-align: center;  /* จัดตัวหนังสือให้อยู่กลาง (หรือ justify ถ้าชอบ) */
+    font-size: 1.1rem;
+    color: var(--text-dim);
+    line-height: 1.8;
+}
+.about-content {
+    background: rgba(255, 255, 255, 0.03); /* กรอบกระจกบางๆ */
+    padding: 40px;
+    border-radius: 24px;
+    border: 1px solid rgba(0, 255, 204, 0.1);
+    backdrop-filter: blur(10px);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.skills-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.skill-item {
+    background: rgba(0, 255, 204, 0.05);
+    border: 1px solid rgba(0, 255, 204, 0.2);
+    color: var(--primary);
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.skill-item:hover {
+    background: var(--primary);
+    color: #000;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 255, 204, 0.3);
+}
+.about-avatar {
+  width: 150px;  /* ขนาดวงกลม */
+  height: 150px;
+  border-radius: 50%; /* ทำเป็นวงกลม */
+  object-fit: cover; /* ตัดรูปให้พอดีกรอบ */
+  border: 3px solid var(--primary); /* เส้นขอบสี Cyan */
+  box-shadow: 0 0 20px rgba(0, 255, 204, 0.3); /* แสงเรืองๆ */
+  margin: 0 auto 30px; /* จัดกลางและเว้นระยะล่าง */
+  display: block;
+}
+
+
+.about-image-wrapper {
+    flex: 0 0 0px; /* ล็อคขนาดรูปให้ไม่ใหญ่เกินไป (300px) */
+}
+.profile-img {
+    width: 100%;
+    height: auto;
+    border-radius: 24px; /* มนรับกับ Card */
+    border: 2px solid var(--primary);
+    box-shadow: 0 0 25px rgba(0, 255, 204, 0.2);
+    object-fit: cover;
+}
+.about-details {
+    flex: 1;
+    text-align: left; /* จัดข้อความชิดซ้ายแบบโปร */
+}
+.skills-showcase h3 {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.skill-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.skill-entry {
+    width: 100%;
+}
+
+.skill-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background: var(--primary);
+    box-shadow: 0 0 10px var(--primary);
+    border-radius: 10px;
+    transition: width 1s ease-in-out;
+}
+
+/* ปรับปรุงเมื่อดูในมือถือ */
+@media (max-width: 850px) {
+    .about-main {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 40px;
+    }
+    .about-details {
+        text-align: center;
+    }
+    .about-image-wrapper {
+        max-width: 250px;
+    }
+}
+/* Nav: ทำให้ดูแยกออกจากพื้นหลัง */
+.nav-container {
+    background: transparent; /* เริ่มต้นใส */
+    padding: 25px 8%;
+    border-bottom: 1px solid transparent;
+}
+
+.nav-container.scrolled {
+    background: rgba(10, 11, 16, 0.8) !important; /* ดำใส */
+    backdrop-filter: blur(15px); /* เบลอหลัง Nav */
+    padding: 15px 8%;
+    border-bottom: 1px solid rgba(0, 255, 204, 0.2);
+}
+
+/* Hero: เพิ่มแสงพื้นหลัง (Glow Effect) ไม่ให้โล่ง */
+.hero {
+    background: radial-gradient(circle at 50% 50%, rgba(0, 255, 204, 0.05), transparent 70%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* เพิ่มจุดแสงเล็กๆ กระจายใน Hero */
+.hero::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: var(--primary);
+    filter: blur(150px);
+    opacity: 0.1;
+    top: 20%;
+    right: 10%;
+    z-index: -1;
+}
+.about-main-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 60px;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 50px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.image-frame {
+    width: 100%;
+    max-width: 320px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid var(--primary);
+    box-shadow: 0 0 30px rgba(0, 255, 204, 0.1);
+}
+
+.about-description p {
+    text-align: left;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+/* Style สำหรับ Progress Bar ใหม่ */
+.skill-item-new { margin-bottom: 20px; }
+.skill-info { display: flex; justify-content: space-between; color: var(--primary); font-size: 0.9rem; margin-bottom: 8px; font-weight: 600; }
+.bar { height: 8px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; overflow: hidden; }
+.fill { height: 100%; background: var(--primary); box-shadow: 0 0 10px var(--primary); }
+
+@media (max-width: 900px) {
+    .about-main-wrapper { grid-template-columns: 1fr; padding: 30px; }
+    .image-frame { margin: 0 auto; }
+}
+.contact-section {
+    padding: 160px 0 80px;
+    background-color: var(--bg-surface); /* สลับสีพื้นหลังให้ต่างจาก Project */
+    text-align: center;
+}
+
+.contact-subtitle {
+    color: var(--text-gray);
+    margin-top: -30px;
+    margin-bottom: 60px;
+    font-size: 1.1rem;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.contact-card {
+    background: var(--bg-darker);
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.contact-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+}
+
+.contact-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.contact-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.contact-card p {
+    color: var(--text-gray);
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+.contact-link {
+    display: inline-block;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid transparent;
+    transition: 0.3s;
+}
+
+.contact-link:hover {
+    border-bottom: 1px solid var(--primary);
+    letter-spacing: 2px;
+}
+
+.footer {
+    margin-top: 100px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    color: #444;
+    font-size: 0.9rem;
+}
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+    margin-top: 60px;
+    align-items: stretch; /* บังคับให้การ์ดที่สั้นกว่ายืดให้เท่าเพื่อน */
+}
+
+.contact-card {
+    background: var(--bg-darker);
+    padding: 50px 30px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    transition: 0.3s;
+    
+    /* หัวใจสำคัญคือ 3 บรรทัดนี้ */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* ผลักปุ่มลงไปกองที่ด้านล่างสุดเสมอ */
+    align-items: center;
+}
+
+.contact-icon {
+    height: 60px; /* บังคับความสูงพื้นที่ไอคอนให้เท่ากัน */
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.contact-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.contact-card p {
+    color: var(--text-gray);
+    margin-bottom: 30px; /* ระยะห่างก่อนถึงปุ่ม */
+    font-size: 1rem;
+    word-break: break-all; /* ป้องกัน Email ยาวๆ ทำการ์ดเบี้ยว */
+}
