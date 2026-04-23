@@ -339,6 +339,7 @@ nav {
 .nav-links a:hover {
     color: #fff;
 }
+
 .projects-section {
     width: 100%;
     display: flex;
@@ -501,22 +502,6 @@ nav {
     transition: width 1s ease-in-out;
 }
 
-/* ปรับปรุงเมื่อดูในมือถือ */
-@media (max-width: 850px) {
-    .about-main {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 40px;
-    }
-    .about-details {
-        text-align: center;
-    }
-    .about-image-wrapper {
-        max-width: 250px;
-    }
-}
-/* Nav: ทำให้ดูแยกออกจากพื้นหลัง */
 .nav-container {
     background: transparent; /* เริ่มต้นใส */
     padding: 25px 8%;
@@ -608,13 +593,6 @@ nav {
     margin: 0 auto;
 }
 
-.contact-card {
-    background: var(--bg-darker);
-    padding: 40px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.03);
-    transition: transform 0.3s ease, border-color 0.3s ease;
-}
 
 .contact-card:hover {
     transform: translateY(-10px);
@@ -624,18 +602,6 @@ nav {
 .contact-icon {
     font-size: 2.5rem;
     margin-bottom: 20px;
-}
-
-.contact-card h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: #fff;
-}
-
-.contact-card p {
-    color: var(--text-gray);
-    margin-bottom: 20px;
-    font-size: 1rem;
 }
 
 .contact-link {
@@ -662,13 +628,7 @@ nav {
     color: #444;
     font-size: 0.9rem;
 }
-.contact-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 25px;
-    margin-top: 60px;
-    align-items: stretch; /* บังคับให้การ์ดที่สั้นกว่ายืดให้เท่าเพื่อน */
-}
+
 
 .contact-card {
     background: var(--bg-darker);
@@ -684,13 +644,6 @@ nav {
     align-items: center;
 }
 
-.contact-icon {
-    height: 60px; /* บังคับความสูงพื้นที่ไอคอนให้เท่ากัน */
-    display: flex;
-    align-items: center;
-    margin-bottom: 25px;
-}
-
 .contact-card h3 {
     font-size: 1.3rem;
     margin-bottom: 15px;
@@ -703,3 +656,65 @@ nav {
     font-size: 1rem;
     word-break: break-all; /* ป้องกัน Email ยาวๆ ทำการ์ดเบี้ยว */
 }
+/* จัดโครงสร้าง Modal ให้สมดุล */
+.modal-body {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr; /* แบ่งซ้ายขวา */
+    gap: 40px;
+    align-items: start; /* ให้เนื้อหาเริ่มจากด้านบนพร้อมกัน */
+}
+
+/* จัดกลุ่มฝั่งซ้าย (รูป + ปุ่ม) */
+.modal-img-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.modal-img-container img {
+    width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ปรับปุ่ม Demo ให้ดูเต็มและสมดุลกับรูป */
+.demo-btn-mini {
+    width: 100%; /* ให้กว้างเท่ารูป */
+    padding: 12px;
+    text-align: center;
+    background: rgba(0, 195, 0, 0.1);
+    border: 1px solid #00c300;
+    color: #00c300;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.demo-btn-mini:hover {
+    background: #00c300;
+    color: #000;
+}
+
+/* ฝั่งขวา (Text) */
+.modal-text {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.project-details-scroll {
+    flex-grow: 1; /* ดัน Footer ลงไปด้านล่าง */
+}
+
+.modal-content {
+    background: var(--bg-surface);
+    width: 95%; /* ใช้พื้นที่เกือบเต็มหน้าจอในมือถือ */
+    max-width: 1100px; /* ขยายให้กว้างขึ้นเพื่อโชว์รูปและเนื้อหาคู่กัน */
+    border-radius: 24px;
+    padding: 30px; /* ลด Padding ลงเล็กน้อยถ้าอยากให้พื้นที่เนื้อหาเยอะขึ้น */
+    position: relative;
+    border: 1px solid rgba(0, 255, 204, 0.2);
+    overflow-y: auto; /* เผื่อเนื้อหายาวเกินหน้าจอ */
+    max-height: 90vh; /* ไม่ให้สูงเกินหน้าจอหลัก */
+} 

@@ -13,23 +13,23 @@ const Hero = () => {
   }, []);
 
   const projects = [
-    {
-      id: 1,
-      title: "Discord Ticket Bot",
-      desc: "ระบบจัดการ Support Ticket อัตโนมัติด้วย Python พร้อมระบบแจ้งชำระเงินและบันทึก Log",
-      detail: "โปรเจกต์นี้พัฒนาขึ้นเพื่อแก้ปัญหาการจัดการคิวงานใน Discord โดยรองรับระบบ Slash Command, การสร้างไฟล์ Log เมื่อปิดตั๋ว, และเชื่อมต่อกับ Database เพื่อเก็บสถานะการชำระเงิน",
-      tech: ["Python", "Discord.py", "SQLite"],
-      img: "img/bot.png"
-    },
-    {
-      id: 2,
-      title: "Face Recognition",
-      desc: "ระบบตรวจจับและจดจำใบหน้าแบบ Real-time โดยใช้อัลกอริทึม LBPH และ OpenCV",
-      detail: "ใช้หลักการประมวลผลภาพ (Image Processing) เพื่อระบุตัวตนบุคคลผ่านกล้อง Webcam รองรับการเทรนใบหน้าใหม่ผ่านระบบ และแสดงผลชื่อพร้อมระดับความมั่นใจ (Confidence Level)",
-      tech: ["OpenCV", "AI / Python", "NumPy"],
-      img: "img/face.png"
-    }
-  ];
+  {
+    id: 1,
+    title: "Discord Ticket Bot",
+    desc: "ระบบจัดการ Support Ticket อัตโนมัติด้วย Python พร้อมระบบแจ้งชำระเงินและบันทึก Log ",
+    detail: "ระบบ Automation สำหรับจัดการคิวสนับสนุนลูกค้าแบบครบวงจร รองรับการสร้างห้องสนทนาส่วนตัวอัตโนมัติ (Private Ticket) , มีระบบ Cooldown 60 วินาทีป้องกันการสแปม , พร้อมเมนูเลือกประเภทคอร์สเรียน และระบบแจ้งชำระเงินผ่าน QR Code ที่เชื่อมโยงข้อมูลกับ Log Channel เพื่อความโปร่งใสในการตรวจสอบ",
+    tech: ["Python", "Discord.py", "AsyncIO"],
+    img: "img/bot.png"
+  },
+  {
+    id: 2,
+    title: "Face Recognition",
+    desc: "ระบบตรวจจับและจดจำใบหน้าแบบ Real-time โดยใช้อัลกอริทึม LBPH และ OpenCV ",
+    detail: "โปรเจกต์ AI สำหรับระบุตัวตนบุคคลผ่านกล้อง Webcam  โดยใช้หลักการ Image Processing ในการตรวจจับใบหน้าและเปรียบเทียบกับฐานข้อมูลผ่านอัลกอริทึม LBPH ระบบรองรับการสร้าง Dataset ใหม่จากการสแกนใบหน้า 200 รูปเพื่อความแม่นยำ และแสดงผลชื่อพร้อมกรอบสถานะแบบ Real-time ",
+    tech: ["OpenCV", "AI / Python", "NumPy"],
+    img: "img/face.png"
+  }
+];
 
   return (
     <div className="portfolio-container">
