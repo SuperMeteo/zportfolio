@@ -140,7 +140,7 @@ const Hero = () => {
             </div>
             <div className="contact-card">
   <div className="contact-icon">
-    <img src="public/img/line.png" alt="Line" style={{ width: '45px', height: '45px', }} />
+    <img src="https://media.wired.com/photos/5926ffe47034dc5f91bed4e8/3:2/w_2560%2Cc_limit/google-logo.jpg" alt="Line" style={{ width: '45px', height: '45px', }} />
   </div>
   <h3>Line ID</h3>
   <p>ebole_fix</p>
