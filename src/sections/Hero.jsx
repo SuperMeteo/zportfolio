@@ -19,7 +19,7 @@ const Hero = () => {
     desc: "ระบบจัดการ Support Ticket อัตโนมัติด้วย Python พร้อมระบบแจ้งชำระเงินและบันทึก Log ",
     detail: "ระบบ Automation สำหรับจัดการคิวสนับสนุนลูกค้าแบบครบวงจร รองรับการสร้างห้องสนทนาส่วนตัวอัตโนมัติ (Private Ticket) , มีระบบ Cooldown 60 วินาทีป้องกันการสแปม , พร้อมเมนูเลือกประเภทคอร์สเรียน และระบบแจ้งชำระเงินผ่าน QR Code ที่เชื่อมโยงข้อมูลกับ Log Channel เพื่อความโปร่งใสในการตรวจสอบ",
     tech: ["Python", "Discord.py", "AsyncIO"],
-    img: "public/img/bot.png"
+    img: "https://i.ibb.co/v4GBwFHP/Jap-Joy-Pen.png"
   },
   {
     id: 2,
@@ -27,7 +27,7 @@ const Hero = () => {
     desc: "ระบบตรวจจับและจดจำใบหน้าแบบ Real-time โดยใช้อัลกอริทึม LBPH และ OpenCV ",
     detail: "โปรเจกต์ AI สำหรับระบุตัวตนบุคคลผ่านกล้อง Webcam  โดยใช้หลักการ Image Processing ในการตรวจจับใบหน้าและเปรียบเทียบกับฐานข้อมูลผ่านอัลกอริทึม LBPH ระบบรองรับการสร้าง Dataset ใหม่จากการสแกนใบหน้า 200 รูปเพื่อความแม่นยำ และแสดงผลชื่อพร้อมกรอบสถานะแบบ Real-time ",
     tech: ["OpenCV", "AI / Python", "NumPy"],
-    img: "public/img/face.png"
+    img: "https://i.ibb.co/Q7QHHgkg/Gemini-Generated-Image-q3xvrxq3xvrxq3xv.png"
   }
 ];
 
@@ -64,7 +64,7 @@ const Hero = () => {
           <div className="about-main-wrapper">
             <div className="about-visual">
               <div className="image-frame">
-                <img src="public/img/my.png" alt="Phutawan" />
+                <img src="https://i.ibb.co/LXyT3kzJ/my-name.png" alt="Phutawan" />
               </div>
             </div>
             <div className="about-description">
@@ -140,7 +140,7 @@ const Hero = () => {
             </div>
             <div className="contact-card">
   <div className="contact-icon">
-    <img src="https://media.wired.com/photos/5926ffe47034dc5f91bed4e8/3:2/w_2560%2Cc_limit/google-logo.jpg" alt="Line" style={{ width: '45px', height: '45px', }} />
+    <img src="https://i.ibb.co/J6yjBbp/line.png" alt="Line" style={{ width: '45px', height: '45px', }} />
   </div>
   <h3>Line ID</h3>
   <p>ebole_fix</p>
